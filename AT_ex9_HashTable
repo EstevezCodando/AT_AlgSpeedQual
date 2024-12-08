@@ -1,0 +1,77 @@
+import csv
+
+class HashTable:
+    def __init__(self, tamanho=1000):
+        """
+        Inicializa a tabela hash com um tamanho definido.
+        
+        :param tamanho: Tamanho da tabela hash.
+        """
+        self.tabela = [[] for _ in range(tamanho)]
+        self.tamanho = tamanho
+
+    def hash_func(self, chave):
+        """
+        Função de hash simples que retorna o índice da tabela.
+        
+        :param chave: Chave para calcular o hash.
+        :return: Índice na tabela hash.
+        """
+        return hash(chave) % self.tamanho
+
+    def inserir(self, chave, valor):
+        """
+        Insere uma chave e valor na tabela hash.
+        
+        :param chave: Chave a ser inserida.
+        :param valor: Valor associado à chave.
+        """
+        indice = self.hash_func(chave)
+        for item in self.tabela[indice]:
+            if item[0] == chave:
+                item[1] = valor
+                return
+        self.tabela[indice].append([chave, valor])
+
+    def recuperar(self, chave):
+        """
+        Recupera o valor associado a uma chave.
+        
+        :param chave: Chave a ser buscada.
+        :return: Valor associado ou None se a chave não existir.
+        """
+        indice = self.hash_func(chave)
+        for item in self.tabela[indice]:
+            if item[0] == chave:
+                return item[1]
+        return None
+
+# Criar uma tabela hash para armazenar os perfis
+tabela_hash = HashTable()
+
+# Ler os registros do arquivo CSV e inserir na tabela hash
+arquivo_csv = "registros/redesocial.csv"
+
+with open(arquivo_csv, 'r') as arquivo:
+    reader = csv.DictReader(arquivo)
+    for linha in reader:
+        tabela_hash.inserir(int(linha["id"]), linha)
+
+# Busca por ID específico
+id_buscado = 500
+resultado_por_id = tabela_hash.recuperar(id_buscado)
+
+# Busca por nome específico ("Vanessa Spencer")
+# Como os nomes podem não ser únicos, precisamos percorrer os registros da tabela
+resultado_por_nome = None
+for bucket in tabela_hash.tabela:
+    for registro in bucket:
+        if registro[1]["nome"] == "Vanessa Spencer":
+            resultado_por_nome = registro[1]
+            break
+    if resultado_por_nome:
+        break
+
+# Resultados
+print(resultado_por_id)
+print(resultado_por_nome)

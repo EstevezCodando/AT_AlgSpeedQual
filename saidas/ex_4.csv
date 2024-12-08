@@ -1,0 +1,6 @@
+Descrição,Valor
+ISBN buscado,978-1-00-283172-4
+Resultado Busca Binária,"{'isbn': '978-1-00-283172-4', 'titulo': 'Distributed tertiary firmware', 'autor': 'Shannon Suarez'}"
+Tempo Busca Binária,0.0
+Resultado Busca Linear,"{'isbn': '978-1-00-283172-4', 'titulo': 'Distributed tertiary firmware', 'autor': 'Shannon Suarez'}"
+Tempo Busca Linear,0.001994609832763672
